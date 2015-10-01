@@ -1,0 +1,24 @@
+{
+	"name": "martin-pettersson/chalk",
+	"type": "library",
+	"description": "A tool to colorize terminal output",
+	"keywords": ["chalk", "color"],
+	"homepage": "http://github.com/martin-pettersson/chalk",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Martin Pettersson",
+			"email": "martin_pettersson@outlook.com",
+			"homepage": "http://martindotcom.se",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.4"
+	},
+	"autoload": {
+		"psr-4": {
+			"Chalk\\": "src"
+		}
+	}
+}
