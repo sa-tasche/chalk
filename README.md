@@ -45,12 +45,17 @@ $style = new Style([Color::RED, BackgroundColor::GREEN, Style::UNDERLINED]);
 echo Chalk::style('This text is red with green background', $style) . PHP_EOL;
 
 // use the parse method for more advanced compositions
-echo Chalk::parse('This text is {green}, {yellow}, {red} and {blue}', [
+echo Chalk::parse('This text is {green}, {yellow}, {red}, {blue} and {something else}', [
   Color::GREEN,
   Color::YELLOW,
   Color::RED,
-  Color::BLUE
+  Color::BLUE,
+  $style
 ]) . PHP_EOL;
+
+// you can nest styles
+// note that the text at the end of the string is still green even after the background styling is reset
+echo Chalk::Green('This text has some ' . Chalk::style('nested', BackgroundColor::WHITE) . ' styling') . PHP_EOL;
 ```
 Example output:
 

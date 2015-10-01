@@ -50,13 +50,6 @@ class Chalk
     const ESCAPE_SEQUENCE = "\033[STYLEm";
 
     /**
-     * The terminal color reset tag
-     *
-     * @var string
-     */
-    const RESET_SEQUENCE = "\033[0m";
-
-    /**
      * Gives the given string the given style
      *
      * @param  string $string
@@ -67,8 +60,9 @@ class Chalk
     public static function style($string, $style)
     {
         $escapeSequence = ($style instanceof Style) ? $style->getEscapeSequence() : self::getEscapeSequence($style);
+        $resetSequence = ($style instanceof Style) ? Style::getResetSequence() : self::getResetSequence($style);
 
-        return $escapeSequence . $string . self::RESET_SEQUENCE;
+        return $escapeSequence . $string . $resetSequence;
     }
 
     /**
@@ -93,6 +87,7 @@ class Chalk
             $style = array_key_exists($i, $styles) ? $styles[$i] : end($styles);
 
             $escapeSequence = ($style instanceof Style) ? $style->getEscapeSequence() : self::getEscapeSequence($style);
+            $resetSequence = ($style instanceof Style) ? Style::getResetSequence() : self::getResetSequence($style);
 
             // replace opening tag
             $string = substr_replace($string, $escapeSequence, $openTag, 1);
@@ -101,20 +96,10 @@ class Chalk
                 $closeTag = strlen($string);
             }
 
-            // only produce a single reset sequence at the end of the string (if the tags are uneven)
-            if (
-                !(
-                    $closeTag === strlen($string) &&
-                    substr(
-                        $string,
-                        $closeTag - strlen(self::RESET_SEQUENCE),
-                        strlen(self::RESET_SEQUENCE)
-                    ) === self::RESET_SEQUENCE
-                )
-            ) {
-                $string = substr_replace($string, self::RESET_SEQUENCE, $closeTag, 1);
+            // don't produce multiple identical reset tags next to each other
+            if (substr($string, $closeTag - strlen($resetSequence), strlen($resetSequence)) !== $resetSequence) {
+                $string = substr_replace($string, $resetSequence, $closeTag, 1);
             }
-
 
             $i++;
         }
@@ -129,9 +114,34 @@ class Chalk
      *
      * @return string
      */
-    private static function getEscapeSequence($style)
+    public static function getEscapeSequence($style)
     {
         return str_replace('STYLE', $style, self::ESCAPE_SEQUENCE);
+    }
+
+    /**
+     * Returns the reset sequence for the given style
+     *
+     * @param int|null $style
+     *
+     * @return string
+     */
+    public static function getResetSequence($style = null)
+    {
+        $resetSequence = Style::getResetSequence();
+
+        if (!is_null($style)) {
+            switch (true) {
+                case in_array($style, Color::enum()):
+                    $resetSequence = Color::getResetSequence();
+                    break;
+                case in_array($style, BackgroundColor::enum()):
+                    $resetSequence = BackgroundColor::getResetSequence();
+                    break;
+            }
+        }
+
+        return $resetSequence;
     }
 
     /**

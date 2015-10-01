@@ -61,6 +61,16 @@ final class Color
     const WHITE = '97';
 
     /**
+     * Returns the color reset sequence
+     *
+     * @return string
+     */
+    public static function getResetSequence()
+    {
+        return Chalk::getEscapeSequence(self::NONE);
+    }
+
+    /**
      * Returns an array of the available colors
      *
      * @return array

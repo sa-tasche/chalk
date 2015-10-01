@@ -40,6 +40,7 @@ namespace Chalk;
  */
 class Style
 {
+    const NONE = '0';
     const BOLD = '1';
     const DIM = '2';
     const UNDERLINED = '4';
@@ -90,7 +91,7 @@ class Style
     public function addStyle($styles)
     {
         foreach ((array) $styles as $style) {
-            $this->escapeSequence .= str_replace('STYLE', $style, Chalk::ESCAPE_SEQUENCE);
+            $this->escapeSequence .= Chalk::getEscapeSequence($style);
         }
     }
 
@@ -105,13 +106,13 @@ class Style
     }
 
     /**
-     * Returns the chalk reset sequence
+     * Returns the style reset sequence
      *
      * @return string
      */
-    public function getResetSequence()
+    public static function getResetSequence()
     {
-        return Chalk::RESET_SEQUENCE;
+        return Chalk::getEscapeSequence(self::NONE);
     }
 
     /**

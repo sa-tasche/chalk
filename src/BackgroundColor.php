@@ -61,6 +61,16 @@ final class BackgroundColor
     const WHITE = '107';
 
     /**
+     * Returns the background color reset sequence
+     *
+     * @return string
+     */
+    public static function getResetSequence()
+    {
+        return Chalk::getEscapeSequence(self::NONE);
+    }
+
+    /**
      * Returns an array of the available colors
      *
      * @return array
