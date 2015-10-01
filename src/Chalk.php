@@ -135,7 +135,9 @@ class Chalk
     }
 
     /**
-     * Allows the convenient use of methods like Chalk::Blue
+     * Allows the convenient use of methods like Chalk::blue
+     *
+     * Note: The color is case INSENSITIVE and this only works for colors
      *
      * @param  string $color
      * @param  array  $arguments
