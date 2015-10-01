@@ -113,4 +113,16 @@ class Style
     {
         return Chalk::RESET_SEQUENCE;
     }
+
+    /**
+     * Returns an array of the available styles
+     *
+     * @return array
+     */
+    public static function enum()
+    {
+        $reflection = new ReflectionClass(__CLASS__);
+
+        return $reflection->getConstants();
+    }
 }
