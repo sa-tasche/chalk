@@ -33,6 +33,8 @@
 
 namespace Chalk;
 
+use ReflectionClass;
+
 /**
  * Class Style
  *
