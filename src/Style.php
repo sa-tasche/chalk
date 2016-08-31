@@ -64,9 +64,11 @@ class Style
      *
      * @param int|array $styles
      */
-    public function __construct($styles)
+    public function __construct($styles = null)
     {
-        $this->setStyle($styles);
+        if (!is_null($styles)) {
+            $this->setStyle($styles);
+        }
     }
 
     /**
